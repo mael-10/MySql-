@@ -1,0 +1,170 @@
+QUERIES 
+
+
+SELECT * 
+FROM employees 
+WHERE hourly_pay > 20;  
+
+SELECT * 
+FROM employees 
+WHERE hire_date <= "2023-01-03"; 
+
+SELECT * 
+FROM employees 
+WHERE hire_date != 1; 
+
+!= is not equal   
+-------------------------------------------------------
+SELECT * 
+FROM employees 
+WHERE hire_date = NULL; 
+
+It's not '=' NULL because hire_date is null not equals null. The correct is: 
+
+SELECT * 
+FROM employees 
+WHERE hire_date IS NULL; 
+
+'=' is used by to compare equal values (such as numbers)
+'IS' is usually used with 'NULL'
+ 
+SELECT * 
+FROM employees 
+WHERE hire_date IS NOT NULL;  
+--------------------------------------------------------
+SET AUTOCOMMIT = OFF; wont commit automaticlly 
+COMMIT; will commit automaticlly 
+ROLLBACK; will restore current transaction back to the previous save point 
+
+================================================================================= 
+JOINS 
+
+SELECT * 
+FROM employees INNER JOIN transactions 
+ON employees.employee_id =   transactions.employee_id; 
+
+INNER 
+
+the middle of the table
+
+RIGHT 
+
+will display all datas from the right table (null values) 
+
+LEFT
+
+will display all datas from the lefet table (null values) 
+===================================================================================
+--fuctions--
+
+SELECT * MAX(amount) as 'maximum'. Will show the maximum value 
+FROM transactions;
+
+SELECT * MIN(amount) as 'minimum'. Will show the minimum value 
+FROM transactions; 
+ 
+SELECT * AVG(amount) as 'avarage'. Will show the avarage value 
+FROM transactions; 
+
+SELECT * CONCAT(first_name, " " ,last_name) as 'full_name'. Will join the first and lastname 
+FROM transactions; 
+
+-using operators-- 
+
+SELECT CONCAT(first_name, " ", last_name) as fullname, job 
+FROM employees 
+WHERE job = 'cook' AND hire_date < '2023-01-05'; 
+
+SELECT CONCAT(first_name, " ", last_name) as fullname, job 
+FROM employees 
+WHERE job = 'cook' OR hire_date < '2023-01-05'; 
+ 
+SELECT CONCAT(first_name, " ", last_name) as fullname, job 
+FROM employees 
+WHERE NOT job = 'cook' AND NOT job = "ass.manager"; 
+
+SELECT CONCAT(first_name, " ", last_name) as fullname, job 
+FROM employees 
+WHERE job IN ('cook', 'cashier', 'janitor'); 
+ 
+SELECT CONCAT(first_name, " ", last_name) as fullname, job 
+FROM employees 
+WHERE hire_date BETWEEN '2023-01-04' AND '2023-01-07';
+
+SELECT * FROM employees will search the all name that begins with letter 's'
+WHERE first_name LIKE 's%'
+
+--LIMIT-- 
+
+SELECT * 
+FROM employees 
+LIMIT 2; will limit the values until 2 (primary key)
+
+
+wild card= curinga 
+
+--UNION-- 
+
+Union combines the results of two statments results  
+
+--SELF JOIN--
+
+--join another copy of a table to itself 
+--used to compare rows of same table 
+--helps to display a heirarchy of data 
+
+
+Let's think about a real situation. If a costumer refer somebody and they register as a new costumer maybe they get like a free meal 
+
+table for the exercise 
+
+CREATE TABLE custumers (
+
+ costumer_id INT PRIMARY AUTO_INCREMENT, 
+ first_name varchar(10), 
+ last_name varchar(10), 
+ referral_id varchar(10)
+
+
+); 
+
+INSERT INTO customers (first_name, last_name, referral_id)
+VALUES ('Fred', 'Fish,', NULL), 
+       ('Larry', 'Lobster', 1),  
+       ('Bubble', 'Bass', 2),
+       ('Popy', 'Puff', 2);
+
+JOINING ANOTHER COPY OF TABLE TO ITSELF
+
+SELECT * 
+FROM customers AS a
+INNER JOIN customers AS b ON 
+a.referral_id = b.customers_id
+
+SELECT a.customer_id, a.last_name, a.first_name,
+       CONCAT(b.first_name, ' ' ,b.last_name) AS 'referred_by' 
+FROM customers AS a
+LEFT JOIN customers AS b ON 
+a.referral_id = b.customer_id; 
+
+if one of these customers was referres by another customer join those rows as well 
+
+--SUB QUERY-  
+
+A query whithin another query 
+--query (subquery)
+
+-- IS MOST USED TO COMPARE THE VALUES WITH OTHER VALUES
+Whatever value or values are returned from sub query. Would calculat our avarage pay regardlees* if we add or removed employees 
+
+SELECT first_name, last_name, hourly_pay 
+	(SELECT AVG(hourly_pay) FROM employees) AS avg_pay 
+FROM employees; 
+
+1- Finds the first name and last_name of every customer that has ever placed an order 
+
+SELECT costumer.first_name, costumer.last_name 
+FROM costumer inner join transaction 
+costumer.costumer_id = transaction.costumer.id
+WHERE transaction.id IS NOT NULL; 
+

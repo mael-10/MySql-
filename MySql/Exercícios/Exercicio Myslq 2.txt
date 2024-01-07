@@ -1,0 +1,136 @@
+1- CREATE TABLE students (
+
+	name_student varchar(50) UNIQUE, 
+	age int, 
+	grade varchar(40), 
+	hourly_paid double 
+
+); 
+
+INSERT INTO students 
+VALUES ('Angela', 20, 'Software Enginer', 20.00), 
+       ('Natalia', 18, 'Banker', 45.76), 
+       ('Robson', 25, 'Personal Treiner', 24.76), 
+       ('Michael', 27, 'Computer Science', 45.67), 
+       ('Ismael', 28, 'Computer Science Enginer', 50.00);  
+
+
+INSERT INTO students (name_student, situation)
+VALUES ('Natalia', 'OK');  
+
+UPDATE students 
+SET situation = 'OK' 
+WHERE name_student = 'Natalia'
+
+UPDATE students 
+SET situation = 'NO' 
+WHERE name_student = 'Robson' 
+
+UPDATE students 
+SET situation = 'OK' 
+WHERE name_student = 'Ismael' 
+
+UPDATE students 
+SET situation = 'NO' 
+WHERE name_student = 'Michael' 
+- - - - - - - - - - - - - - - -
+
+UPDATE students 
+SET hired_date = CURDATE()
+WHERE name_student = 'Natalia'
+
+UPDATE students 
+SET hired_date = CURDATE() + 1
+WHERE name_student = 'Robson' 
+
+UPDATE students 
+SET hired_date = CURDATE() + 2 
+WHERE name_student = 'Ismael' 
+
+UPDATE students 
+SET hired_ date = CURDATE() + 3
+WHERE name_student = 'Michael' 
+
+======================================================================= 
+1- Querie  para ver o cod_paciente, nome_paciente, especialidade do medico e o nome do médico (4 tabelas)
+ 
+SELECT paciente.cod_paciente, paciente.nome_paciente, medico.nome_medico, especialidade.nome_especialidade, DATE_FORMAT(consulta.data_consulta, '%m-%d-%Y')  as Date
+FROM paciente INNER JOIN consulta ON 
+paciente.cod_paciente = consulta.cod_paciente 
+INNER JOIN medico ON 
+medico.cod_medico = consulta.cod_medico 
+INNER JOIN especialidade ON 
+especialidade.cod_especialidade = medico.cod_especialidade 
+
+2- Faça uma consulta que retorne o nome dos médicos que não possuem
+pacientes.
+
+FOR HELP:  
+
+SELECT paciente.Cod_paciente, paciente.nome_paciente, medico.nome_medico, medico.cod_medico, consulta.Cod_paciente
+ FROM Consulta INNER JOIN Paciente ON
+      Consulta.Cod_paciente = Paciente.Cod_paciente
+               INNER JOIN Medico ON
+      Consulta.Cod_medico = Medico.Cod_medico; 
+
+
+- - -
+
+SELECT Medico.Nome_medico as 'Médico', COUNT(Paciente.Cod_paciente) as 'Nº de pacientes'
+ FROM Consulta RIGHT JOIN Paciente ON
+      Consulta.Cod_paciente = Paciente.Cod_paciente
+               RIGHT JOIN Medico ON
+      Consulta.Cod_medico = Medico.Cod_medico
+ GROUP BY Medico.Nome_medico
+ HAVING COUNT(Paciente.Cod_paciente) = 0
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+SELECT medico.nome_medico, count(paciente.cod_paciente) as Qte 
+FROM paciente inner join consulta ON
+paciente.Cod_paciente = consulta.cod_paciente 
+right join  medico ON
+medico.cod_medico = consulta.cod_medico 
+GROUP BY medico.cod_medico
+HAVING count(paciente.cod_paciente) = 0;
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+My code: 
+
+SELECT medico.nome_medico, count(paciente.cod_paciente) as Qte 
+FROM paciente inner join consulta ON
+paciente.Cod_paciente = consulta.cod_paciente 
+right join  medico ON
+medico.cod_medico = consulta.cod_medico 
+GROUP BY medico.cod_medico
+HAVING count(paciente.cod_paciente) = 0;
+
+---------------------------------------------------------
+DECREASE 
+
+SELECT especialidade.nome_especialidade as Especialidade, count(paciente.cod_paciente) as Qte 
+FROM paciente inner join consulta ON
+paciente.Cod_paciente = consulta.cod_paciente 
+inner join  medico ON
+medico.cod_medico = consulta.cod_medico 
+right join especialidade ON 
+especialidade.cod_especialidade = medico.cod_especialidade 
+GROUP BY especialidade.cod_especialidade
+ORDER BY count(paciente.cod_paciente) desc
+LIMIT 1;
+
+OR 
+
+INCREASE 
+
+SELECT especialidade.nome_especialidade as Especialidade, count(paciente.cod_paciente) as Qte 
+FROM paciente inner join consulta ON
+paciente.Cod_paciente = consulta.cod_paciente 
+inner join  medico ON
+medico.cod_medico = consulta.cod_medico 
+right join especialidade ON 
+especialidade.cod_especialidade = medico.cod_especialidade 
+GROUP BY especialidade.cod_especialidade
+ORDER BY count(paciente.cod_paciente) 
+LIMIT 1;
+
+
+

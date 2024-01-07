@@ -1,0 +1,19 @@
+DATE TIME AND DATE TIME
+
+CREATE TABLE test(
+    my_date DATE, 
+    my_time TIME, 
+    my_datetime DATETIME
+);
+
+INSERT INTO test 
+VALUES(CURRENT_DATE(), CURRENT_TIME(), NOW())   
+
+
+INSERT INTO test 
+VALUES(CURRENT_DATE() - 1, CURRENT_TIME() + 5, now() + 1); 
+- - - - - -- - - - -
+
+CURRENT_DATE = currently DATE 
+CURRENT_TIME = currently TIME 
+NOW = currently DATE AND TIME

@@ -1,0 +1,150 @@
+CREATE DATABASE Clinica; 
+
+CREATE TABLE Paciente (
+
+	Cod_paciente int primary key, 
+	Nome_paciente varchar(50), 
+	Idade Int, 
+	Telefone char(10)
+		
+); 
+
+CREATE TABLE Especialidade (
+
+	Cod_especialidade int primary key, 
+	Nome_especialidade varchar(50)
+	
+);  
+
+
+CREATE TABLE Consulta (
+
+	Cod_consulta int primary key, 
+	Data_consulta date,
+	Horario time, 
+	Cod_paciente int, 
+	Cod_medico int,
+	Foreign key (Cod_paciente) references paciente (Cod_paciente), 
+	Foreign key (cod_medico) references medico (Cod_medico)
+); 
+
+CREATE TABLE medico (
+
+	Cod_medico int primary key, 
+	Nome_medico varchar(50), 
+	Cod_especialidade int, 
+	Foreign key (cod_especialidade) references especialidade (cod_especialidade)
+
+
+);
+
+
+INSERT INTO Especialidade
+VALUES (1,  'Oftalmologia'),
+       (2,  'Otorrinolaringologia'),
+       (3, 'Clínico Geral'),
+       (4,  'Oncologia');
+
+
+INSERT INTO Medico
+VALUES (10, 'Júlio Bicalho', 3), 
+       (11, 'Vanessa Gontijo', 2), 
+       (12, 'Sérgio Simeão', 2), 
+       (13, 'Marcelo Tavares', 1); 
+
+INSERT INTO Paciente
+VALUES (10, 'Luciana Soares', 21, '97526-5420'),
+       (11, 'Paulo Macedo', 22, '97526-8624'), 
+       (12, 'Janaína Ferreira', 30, '98526-8752'), 
+       (13, 'Rosângela Silva', 28, '97956-0325'),
+       (14, 'Anderson Pacheco', 17, '98569-3214'), 
+       (15, 'Patrícia Gomes', 18, '98623-8952'), 
+       (16, 'Ricardo Cruz', 32, '98798-5987'), 
+       (17, 'Heleno Gomes', 36, '97569-6532'),
+       (18, 'Vanessa Soares', 17, '98623-8795'), 
+       (19, 'Dayane Gontijo', 25, '98965-5236'), 
+       (20, 'Camila Silva', 62, '99563-8956'), 
+       (21, 'Ricardo Oliveira', 51, '98596-8416'); 
+
+
+INSERT INTO Consulta
+VALUES (101, '2022-02-22', '07:30', 10, 10),
+       (102, '2022-12-11', '07:30', 11, 10),
+       (103, '2022-03-19', '09:30', 12, 12),
+       (104, '2022-07-15', '08:00', 13, 12),
+       (105, '2022-07-16', '08:00', 20, 13),
+       (106, '2022-02-16', '08:00', 20, 10),
+       (107, '2022-02-17', '09:30', 18, 10); 
+
+
+QUERIES 
+
+==================================================================
+
+a) SELECT nome_paciente, idade 
+FROM paciente 
+
+b)  SELECT nome_paciente, idade 
+FROM paciente 
+WHERE idade < 18 
+
+c) SELECT COUNT(cod_paciente) as Quantidade 
+FROM paciente 
+
+d) SELECT medico.nome_medico as 'Nome médico', especialidade.nome_especialidade as 'Nome especialidade' 
+FROM medico inner join especialidade ON 
+medico.cod_especialidade = especialidade.cod_especialidade;  
+
+e) SELECT nome_paciente, idade 
+FROM paciente 
+WHERE cod_paciente BETWEEN 16 AND 20 
+
+f) SELECT paciente.nome_paciente as 'Nome Paciente', paciente.telefone, paciente.idade, consulta.data_consulta 'Data Consulta', consulta.horario 'Consulta'
+FROM paciente INNER JOIN consulta ON 
+paciente.cod_paciente = consulta.cod_paciente  
+
+g) SELECT medico.nome_medico as 'Nome Medico', COUNT(consulta.cod_consulta) as 'Qte consulta' 
+FROM consulta right join medico on 
+medico.cod_medico = consulta.cod_medico
+GROUP BY medico.nome_medico
+
+h) SELECT especialidade.nome_especialidade as 'Nome especialidade', COUNT(consulta.cod_consulta) as 'Número Consultas'
+FROM medico inner join consulta on 
+medico.cod_medico = consulta.cod_medico 
+right join especialidade on 
+medico.cod_especialidade = especialidade.cod_especialidade 
+GROUP BY especialidade.nome_especialidade
+
+i) SELECT paciente.nome_paciente 'Nome Paciente', paciente.telefone, DATE_FORMAT(consulta.data_consulta, '%d/%m/%Y') AS Data, consulta.horario, especialidade.nome_especialidade as 'Nome especialiadade', medico.nome_medico as 'Nome Medico'
+FROM paciente inner join consulta on 
+paciente.cod_paciente = consulta.cod_paciente 
+inner join medico on 
+medico.cod_medico = consulta.cod_medico 
+inner join especialidade on 
+especialidade.cod_especialidade = medico.cod_especialidade 
+
+j) SELECT medico.nome_medico, COUNT(paciente.cod_paciente) as paciente
+FROM consulta inner join paciente on 
+consulta.cod_paciente = paciente.cod_paciente 
+right join medico on 
+medico.cod_medico = consulta.cod_medico
+GROUP BY medico.nome_medico 
+HAVING paciente = 0
+
+k) 
+SELECT especialidade.nome_especialidade as Especialidade, COUNT(paciente.cod_paciente) as Total_Pacientes
+FROM paciente
+INNER JOIN consulta ON paciente.cod_paciente = consulta.cod_paciente 
+INNER JOIN medico ON medico.cod_medico = consulta.cod_medico 
+INNER JOIN especialidade ON especialidade.cod_especialidade = medico.cod_especialidade
+GROUP BY especialidade.nome_especialidade
+ORDER BY Total_Pacientes DESC
+LIMIT 1;
+
+l) SELECT especialidade.nome_especialidade as Especialidade, COUNT(paciente.cod_paciente) as Total_Pacientes
+FROM paciente
+INNER JOIN consulta ON paciente.cod_paciente = consulta.cod_paciente 
+INNER JOIN medico ON medico.cod_medico = consulta.cod_medico 
+INNER JOIN especialidade ON especialidade.cod_especialidade = medico.cod_especialidade
+GROUP BY especialidade.nome_especialidade
+LIMIT 1;

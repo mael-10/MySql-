@@ -1,0 +1,175 @@
+======================TABLES=======================
+
+CREATE TABLE employees (
+
+    employee_id int, 
+    first_name varchar(10), 
+    last_name varchar(20), 
+    houraly_pay decimal(5,2), 
+    hire_date date 
+);
+
+NOT NULL CONTRAINT 
+
+CREATE TABLE employees (
+
+    employee_id int, 
+    first_name varchar(10) NOT NULL, 
+    last_name varchar(20), 
+    houraly_pay decimal(5,2), 
+    hire_date date 
+);
+
+OR 
+
+ALTER TABLE employees 
+MODIFY first_name varchar(10) NOT NULL; 
+
+THIS DOENS'T ALLOW VALUES 'NULL' IN THE COLUMN 
+
+---primary key---
+
+WHEN CREATE THE TABLE WITH THE PRIMARY KEY WE CAN USE THE AUTO INCREMENT. WE JUST USE IN KEYS AND DONT NEED EXPLICITY THE COLUMN AT THE MOMENT INSERTING THE VALUES 
+
+
+CREATE TABLE employees (
+
+    employee_id INT PRIMARY KEY AUTO_INCREMENT, 
+    first_name varchar(10) NOT NULL, 
+    last_name varchar(20), 
+    houraly_pay decimal(5,2), 
+    hire_date date 
+);
+
+INSERT INTO employees (first_name, last_name, houraly_pay, hire_date)
+VALUES ('Eren', 'Folks', 20.00, '2023-12-01'),
+       ('Ryhan', 'Parks', 18.00, '2023-12-09'), 
+       ('Johan', 'Falkys', 32.98, '2023-11-09'), 
+       ('Abrahm', 'Lewis', 21.11, '2023-11-02'); 
+
+FOR ALTER THE TYPES AND THE RESTART THE COUNTER OF THE AUTO_INCREMENTE U NEED THE DELETE ALL ROWS AND USE: 
+
+ALTER TABLE employees 
+AUTO_INCREMENT = 1000; 
+
+--foreign key--
+ 
+CREATE TABLE transactions (
+
+	transiction INT PRIMARY KEY AUTO_INCREMENT, 
+	amount DECIMAL(5,2), 
+	employee_id INT, 
+	foreign key (employee_id) references employees (employee_id)
+);  
+
+--DELETE A FOREIGN KEY-- 
+
+ALTER TABLE transactions  
+DROP FOREIGN KEY transactions_ibfk_1 
+
+--TO ADD A FOREIGN KEY-- 
+
+ALTER TABLE transaction 
+ADD CONSTRAINT fk_employee_id 
+FOREIGN KEY (employee_id) REFERENCES employees (employee_id) 
+
+---------------------------------------------------
+START DATABASE FOR DO CHANGES AND SOMETHING ELSE
+
+USE myDB; 
+---------------------------------------------------
+CHANGE TABLE NAME:  
+
+ALTER TABLE employees 
+RENAME TO workers; 
+
+ALTER TABLE //old name// RENAME TO //new name;
+--------------------------------------------------
+DROP TABLE 
+
+DROP TABLE employees;
+---------------------------------------------------
+VIEW MODE DATABASE ON:
+ 
+ALTER DABASE mydb READ ONLY = 1;
+
+VIEW MODE DATABASE OFF: 
+
+ALTER DABASE mydb READ ONLY = 0;
+
+=====================Collumns=====================
+ADD A COLUMN: 
+
+ALTER TABLE employees 
+ADD phone_number char(10);
+--------------------------------------------------- 
+CHANGE COLUMN NAME:  
+
+ALTER TABLE employees 
+RENAME COLUMN phone_number to Email; 
+---------------------------------------------------
+ALTER TYPE OF COLUMN  
+
+ALTER TABLE employees 
+MODIFY COLUMN email varchar(100); 
+-------------------------------------------------
+UNIQUE COLLUMN 
+CREAT TABLE product(
+	product_id int, 
+	product_name VARCHAR(50) UNIQUE, 
+	price DECIMAL(5,2)
+); 
+'UNIQUE' DOESN'T ALLOW THE VALUES REPEAT 
+
+IF YOU FORGOT TO ADD AT THE MOMENTE THAT YOU WAS CREATING THE TABLE, SO: 
+
+ALTER TABLE products 
+ADD CONSTRAINT 
+UNIQUE(product_name); 
+--------------------------------------------------
+ALTER THE POSITION OF COLUMN 
+
+ALTER TABLE employees, 
+MODIFY email varchar(100)
+AFTER last_name; 
+
+OR 
+
+ALTER TABLE employees, 
+MODIFY email varchar(100)
+FIRST;
+--------------------------------------------------- 
+DELETE COLUMN 
+
+ALTER TABLE employes 
+DROP COLUMN email; 
+----------------------------------------------------
+VIEW ALL COLUMN OF TABLE: 
+
+SELECT *          //COLUMN
+FROM employees;   //TABLE
+======================Rows=============================
+CHANGE ROWS OF COLLUMN 
+
+UPDATE employees 
+SET hourly_pay = 10.25, hire_date = "2023-01-07"
+WHERE employee_id = 6; 
+
+UPDATE employees 
+SET hourly_pay = 10.25, hire_date = NULL
+WHERE employee_id = 6; 
+
+UPDATE employees 
+SET hourly_pay = 10.25
+with these, all columns will have the same value
+
+DELETE FROM employees;
+will delete all rows in your table
+
+DELETE FROM employees 
+WHERE employee_id = 6;
+will delete row 6 
+------------------------------------------------------
+
+is no longer there 
+

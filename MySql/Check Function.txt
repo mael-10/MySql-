@@ -1,0 +1,3 @@
+CHECK CONSTRAINT 
+---------------------------------------------------------------------------------
+CHECK CONSTRAINT IS USED TO LIMIT THE VALUES CAN BE PLACED IN A COLUMN  

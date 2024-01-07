@@ -1,0 +1,65 @@
+ INSERT ROWNS IN MYSQL
+==============================================================  
+
+INSERT INTO employees 
+VALUES (1, "Eugene", "Krabs", 25.50, "2023-01-02"); date (y,m,d)
+
+SELECT * FROM employees; 
+//Name and date must use quotation mark to add in rows 
+=============================================================== 
+
+ADD MANY ROWNS 
+
+INSERT INTO employees
+VALUES (2, "Squidward", "Tentacles", 15.00, "2023-01-03"),
+       (3, "Spongebob", "Squarespants", 12.50, "2023-01-04"), 
+       (4, "Patrick", "Star", 12.50, "2023-01-05"), 
+       (5, "Sandy", "Cheeks", 17.25, "2023-01-06");  
+
+SELECT * FROM employees; 
+----------------------------------------------------------------- 
+Add a set of parentheses then name the columns you JUST would like to insert date into on there aren't values  
+ 
+INSERT INTO employees (employee_id, first_name, last_name)
+VALUES (6, "Sheldon", "Plankton");  
+-----------------------------------------------------------------
+
+DEFAULT CONSTRAINT 
+
+DEFAULT CONSTRAINT IS WHEN INSERTING A NEW ROWN IF WE NOT SPECIFY A VALUE FOR A COLUMN 
+
+INSERT INTO products 
+VALUES (104, 'straw' 0.00), 
+       (105, 'napkin', 0.00), 
+       (106, 'fork', 0.00)
+       (107, 'spoon', 0.00); 
+
+
+WE HAVE FOUR INTEMS THAT ACCTUALLY COST SOMETHING THEN OUR FREE ITEMS WHICH ARE INCLUDED WITH WHATEVER WE BUY. IN PLACE OF EXPLICITLY STATING A PRICE WE COULD SET DEFAULT CONSTRAINT. WHERE IF WE DON'T EXPLICITLY WILL SET A PRICE BY DEFAULT 
+
+DELETE FROM products 
+WHERE product_id >= 104 
+
+
+WHEN AT THE MOMENT CREATING THE TABLE WE CAN SET DEFAULT 
+
+	CREAT TABLE products (
+	
+	product_id INT, 
+	prouct_name VARCHAR(25), 
+	price DECIMAL(4,2) DEFAULT 0
+);
+
+OR 
+
+ALTER TABLE products 
+ALTER price SET DEFAULT 0; 
+
+INSERT INTO products (proct_id, product_name)
+VALUES (104, 'straw'), 
+       (105, 'napki'), 
+       (106, 'fork'),
+       (107, 'spoon'); 
+
+SET DEFAULT CONSTRAINT WE DON'T NEED EXPLIXILY LISTS THE PRICE BUT EXPLIXILIES THE COLUMNS WE NAME HIM AT THE TOP 
+
